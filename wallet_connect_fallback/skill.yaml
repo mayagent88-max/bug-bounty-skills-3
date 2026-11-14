@@ -1,0 +1,29 @@
+name: wallet_connect_fallback
+title: Switch Wallet When a Browser Wallet Connect Stays Silent
+description: Diagnose a silent browser wallet connect, switch to a fallback extension wallet, and check chain support before sending funds to a new chain.
+category: Finance
+include_in_prompt: false
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - 260d3186
+  - c07e6502
+  - c66b2eae
+  - ddc228ea
+  - 69b5c98c
+  - 55f21821
+  - aef2e064
+  - 0d0ba269
+  - 76c582a5
+  - 76f01853
+  - 6ab975b9
+  measurement:
+    proxy_metric_id: objective_success_rate
+    success_criterion: In post-install wallet connect tasks, no silent extension failure is retried more than once without a changed route, a fallback wallet is tried when the first wallet stays silent, and no funds are sent to a chain the wallet tool does not support.
+    window_days: 30
+  needs_review: false
+  rationale: 'The same silent connect failure repeated across three sites on 10 Nov 2026: ASCII ENV connect stayed silent with no popup and a provider request rejected code 4001 (260d3186, c07e6502, c66b2eae), Qwap connect via the same wallet failed the same way (69b5c98c), and the DAC portal stayed silent via the same wallet even after adding its testnet network (ddc228ea). Switching to a second extension wallet holding the same imported account worked for Qwap and a swap then succeeded (55f21821, aef2e064, 0d0ba269). The related chain failure is also in evidence: funds were sent to a new chain the wallet tool does not support, with only 7 chains supported and the new chains absent (76c582a5, 76f01853, 6ab975b9). Skill search shows no existing skill covers this diagnosis and fallback: free_mint_wallet_connect covers preparing a direct sign link or QR and not retrying without a new route, but not diagnosing a silent extension popup, switching extension wallets, or checking chain support before sending funds. Chromium-control is not loop-managed and says only not to use the Muse browser, so it cannot be updated here. Other candidates were checked and not proposed: minimum-check, link format, echoing tone, Google-prompt warning and credential reuse are already codified in AGENTS.md and MEMORY.md with no repeat after codification in this window, and the wrong-browser failures repeat a rule chromium-control already states.'
+  review_after: 2026-12-10T06:01:44.640816+00:00
+  reviewed_at: 2026-11-10T06:01:44.640816+00:00
+  run_id: sirun_eb928281d7bd4c3ca6e099762bbd35a6

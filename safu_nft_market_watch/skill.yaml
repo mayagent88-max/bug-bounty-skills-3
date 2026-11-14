@@ -1,0 +1,5 @@
+name: safu_nft_market_watch
+title: Watch token and NFT floors and sell at the threshold
+description: Check token and NFT floor prices on a schedule, report only on a change or when a sell threshold is reached, and sell only on a verified net route.
+category: Finance
+include_in_prompt: false

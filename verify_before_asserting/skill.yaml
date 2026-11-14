@@ -1,0 +1,23 @@
+name: verify_before_asserting
+title: Verify Before Asserting
+description: Check a specific channel, timing, or token claim against its official source before stating it as fact.
+category: Work and knowledge
+include_in_prompt: false
+skill_improvement:
+  managed: true
+  status: active
+  measurement:
+    proxy_metric_id: objective_success_rate
+    success_criterion: In post-install new project and token claims, no channel, timing, token identity, or token price assertion is stated without a named official source, and every unverified item is labelled unverified, with no repeat correction by a user screenshot.
+    window_days: 30
+  evidence_handles:
+  - message:1c2d9192-1615-416d-b471-e82781d9fd5b
+  - message:assistant-msg-beab3d5e-2445-d050-2f4a-f5a8794b2ee5
+  - message:assistant-msg-6441544e-3e3c-42af-b658-b23806992169
+  - message:assistant-msg-960b3bd3-04b8-4ddb-a3f1-3df51642cae9
+  - message:assistant-msg-f0a74b28-b863-406a-b2e4-6198bae550ea
+  needs_review: false
+  rationale: The same mechanism failed in two different contexts in this window. For Retium the assistant gave the wrong Telegram channel, corrected only after the user message 1c2d9192-1615-416d-b471-e82781d9fd5b, and invented X-Follower timing that it self-corrected in assistant-msg-beab3d5e-2445-d050-2f4a-f5a8794b2ee5. For TAG the assistant first misidentified a dust transfer of a similarly named token as the claim in assistant-msg-6441544e-3e3c-42af-b658-b23806992169, then after the claim was confirmed as 200 TAG in assistant-msg-960b3bd3-04b8-4ddb-a3f1-3df51642cae9 it guessed the token was Tagger at about 0.00067 USD while admitting the contract address was not yet verified in assistant-msg-f0a74b28-b863-406a-b2e4-6198bae550ea. No existing skill covers this general case. token_arrival_follow_up covers only arrival and its contract match, dex-aggregator covers only multi-router liquidity quotes, and free_mint_wallet_connect covers only a mint contract check, and all three managed skills are still inside their measurement windows so they are not updated. A narrow new skill that requires an official source before stating a channel, timing, token identity, or price, and labels the rest unverified, addresses the repeated mechanism without duplicating memory entries.
+  review_after: 2026-12-06T05:18:48.161750+00:00
+  reviewed_at: 2026-11-06T05:18:48.161750+00:00
+  run_id: sirun_af5d4b9f734d41419b5f34645825d2b4

@@ -1,0 +1,20 @@
+name: work_through_to_result
+title: Work Through to a Result
+description: Carry a multi-phase task through every phase to its finish line or a real block, without pausing to ask at phase boundaries.
+category: Work and knowledge
+include_in_prompt: true
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - message:48a0d29f
+  - message:603c664d
+  measurement:
+    proxy_metric_id: objective_success_rate
+    success_criterion: In post-install multi-phase tasks, no user correction about asking at a phase boundary occurs, every task reaches its finish line or a named real block, and no paid or irreversible step runs without confirmation.
+    window_days: 30
+  needs_review: false
+  rationale: 'The user escalated on 2026-11-11 around 19:38 WIB to do every task as best as possible and stop asking, then corrected the same behaviour again on 2026-11-12 at 00:58 WIB at a Phase 4 boundary, saying the work should run through to a result instead of stopping to ask (message:48a0d29f, message:603c664d). The repeat after an explicit escalation shows the standing preference line in memory alone did not stop the behaviour. Skill search found no skill covering carrying work through phase boundaries, and the closest file, bb-boss-workflow, lists its 8 phases in order but holds no rule against pausing to ask at a phase boundary, and it is not loop-managed (learning null) so it cannot be updated here. The new skill states the method directly, lists it in every conversation, and preserves the existing carve-outs: stop for a missing account, needed funds, a paid or irreversible step, or an explicit stop order. One proposal only. The 78 tool failures in this window carried no error detail beyond the tool name, the delegated-agent transcripts were empty, all 7 managed skills are still inside their measurement windows, and no amendment or recovered note awaited review, so nothing else in the corpus grounds a second change.'
+  review_after: 2026-12-12T12:19:06.567197+00:00
+  reviewed_at: 2026-11-12T12:19:06.567197+00:00
+  run_id: sirun_8bbcd04fbc6b47cab1de75fe805fc3f1

@@ -1,0 +1,169 @@
+name: reporting
+version: 2.1.0
+description: Bug bounty report generation, CVSS scoring, evidence packaging, platform-specific exports
+bounded_context: FindingContext
+safety_tier: passive
+owasp_wstg: []
+owasp_api_top10: []
+severity_range: [info, low, medium, high, critical]
+tools_required:
+  - python3
+  - curl
+  - jq
+  - date
+input_files:
+  - findings.jsonl
+workflows:
+  generate-single:
+    description: Generate a single finding report from evidence
+    safety_tier: passive
+    inputs: [FINDING_DIR, OUTDIR, CONTEXT]
+    command: |
+      mkdir -p $OUTDIR/reports && \
+      python3 .claude/skills/reporting/scripts/report_generator.py --context $OUTDIR/reports --finding-dir "${FINDING_DIR:?Set FINDING_DIR}" --vuln-type ${VULN_TYPE:-default}
+    outputs:
+      - $OUTDIR/reports/report.md
+    evidence_dir: $OUTDIR/reports/evidence/
+    detection_signals: []
+    false_positives: []
+    next:
+      if_findings: cvss-score
+      if_no_findings: cvss-score
+
+  cvss-score:
+    description: Calculate CVSS v3.1 score for a finding
+    safety_tier: passive
+    inputs: [FINDING_DIR, CONTEXT]
+    command: |
+      mkdir -p $OUTDIR/reports && \
+      python3 .claude/skills/reporting/scripts/cvss_calc.py --context $OUTDIR/reports --AV ${CVSS_AV:-N} --AC ${CVSS_AC:-L} --PR ${CVSS_PR:-N} --UI ${CVSS_UI:-N} --S ${CVSS_S:-U} --C ${CVSS_C:-H} --I ${CVSS_I:-H} --A ${CVSS_A:-H}
+    outputs:
+      - $OUTDIR/reports/cvss.json
+    evidence_dir: $OUTDIR/reports/evidence/
+    detection_signals: []
+    false_positives: []
+    next:
+      if_findings: batch-generate
+      if_no_findings: batch-generate
+
+  batch-generate:
+    description: Generate reports from nuclei/skill JSONL output
+    safety_tier: passive
+    inputs: [OUTDIR, CONTEXT]
+    command: |
+      mkdir -p $OUTDIR/reports && \
+      python3 .claude/skills/reporting/scripts/batch_reporter.py --context $OUTDIR/reports --findings-dir $OUTDIR/
+    outputs:
+      - $OUTDIR/reports/summary.md
+      - $OUTDIR/reports/findings/
+    evidence_dir: $OUTDIR/reports/evidence/
+    detection_signals: []
+    false_positives: []
+    next:
+      if_findings: platform-export
+      if_no_findings: platform-export
+
+  platform-export:
+    description: Render a finding into a platform-specific report (HackerOne, Bugcrowd, or generic disclosure)
+    safety_tier: passive
+    inputs: [FINDING_DIR, OUTDIR, CONTEXT]
+    command: |
+      mkdir -p $OUTDIR/reports && \
+      python3 .claude/skills/reporting/scripts/platform_templates.py render --finding-dir "${FINDING_DIR:?Set FINDING_DIR}" --platform ${PLATFORM:-hackerone} --output $OUTDIR/reports/report_${PLATFORM:-hackerone}.md
+    outputs:
+      - $OUTDIR/reports/report_hackerone.md
+    evidence_dir: $OUTDIR/reports/evidence/
+    detection_signals: []
+    false_positives: []
+    next:
+      if_findings: quality-check
+      if_no_findings: quality-check
+
+  quality-check:
+    description: Gate a report for submission readiness (sections, placeholders, secrets, evidence)
+    safety_tier: passive
+    inputs: [OUTDIR, CONTEXT, FINDING_DIR]
+    command: |
+      python3 .claude/skills/reporting/scripts/quality_gate.py check --report "${REPORT_FILE:-$OUTDIR/reports/report_hackerone.md}" --finding-dir "${FINDING_DIR:-$EVIDENCE_DIR}" --json > $OUTDIR/reports/quality_report.json; \
+      python3 .claude/skills/reporting/scripts/quality_gate.py check --report "${REPORT_FILE:-$OUTDIR/reports/report_hackerone.md}" --finding-dir "${FINDING_DIR:-$EVIDENCE_DIR}"
+    outputs:
+      - $OUTDIR/reports/quality_report.json
+    evidence_dir: $OUTDIR/reports/evidence/
+    detection_signals:
+      - "quality gate passed with zero errors"
+    false_positives:
+      - "warnings are advisory; only errors block submission"
+    next:
+      if_findings: estimate-bounty
+      if_no_findings: estimate-bounty
+
+  estimate-bounty:
+    description: Estimate bounty range from severity, vulnerability class, and program tier
+    safety_tier: passive
+    inputs: [OUTDIR, CONTEXT]
+    command: |
+      mkdir -p $OUTDIR/reports && \
+      python3 .claude/skills/reporting/scripts/bounty_estimator.py estimate \
+        --severity ${SEVERITY:-high} \
+        --vuln-type "${VULN_TYPE:-}" \
+        --impact-class "${IMPACT_CLASS:-}" \
+        --program-tier ${PROGRAM_TIER:-standard} \
+        --platform ${PLATFORM:-hackerone} \
+        > $OUTDIR/reports/bounty_estimate.json
+    outputs:
+      - $OUTDIR/reports/bounty_estimate.json
+    evidence_dir: $OUTDIR/reports/evidence/
+    detection_signals:
+      - "bounty range estimated from severity and class multipliers"
+    false_positives:
+      - "estimates are heuristic; program tables decide actual payouts"
+    next:
+      if_findings: export-bundle
+      if_no_findings: export-bundle
+
+  export-bundle:
+    description: Package findings into a share-safe ZIP with manifest (complete vs partial)
+    safety_tier: passive
+    inputs: [OUTDIR, CONTEXT]
+    command: |
+      mkdir -p $OUTDIR/reports && \
+      python3 .claude/skills/reporting/scripts/export_bundle.py --outdir "$OUTDIR" --output "$OUTDIR/reports/bundle.zip" ${PARTIAL_REASON:+--partial-reason "$PARTIAL_REASON"}
+    outputs:
+      - $OUTDIR/reports/bundle.zip
+    evidence_dir: $OUTDIR/reports/evidence/
+    detection_signals:
+      - "bundle ZIP with manifest.json and findings.json"
+      - "PARTIAL.txt present when input was stopped or empty"
+    false_positives: []
+    next:
+      if_findings: rank-findings
+      if_no_findings: rank-findings
+
+  rank-findings:
+    description: Re-rank findings by bounty impact using a composable markdown ranker (Kritt-style)
+    safety_tier: passive
+    inputs: [OUTDIR, CONTEXT]
+    command: |
+      mkdir -p $OUTDIR/reports && \
+      python3 .claude/skills/reporting/scripts/rank_findings.py \
+        --findings "${RANK_FINDINGS:-$OUTDIR/impact-verifier/verified.jsonl}" \
+        --ranker "${RANKER_FILE:-.claude/skills/reporting/payloads/severity_ranker_default.md}" \
+        ${RANK_LLM:+--llm} \
+        --output "$OUTDIR/reports/ranked.jsonl"
+    outputs:
+      - $OUTDIR/reports/ranked.jsonl
+    evidence_dir: $OUTDIR/reports/evidence/
+    detection_signals:
+      - "findings reordered by bounty_rank with counts per severity"
+    false_positives:
+      - "heuristic ranking without LLM may mis-rank novel vuln types"
+    next:
+      if_findings: null
+      if_no_findings: null
+
+evidence_templates:
+  cvss: "CVSS vector string and breakdown"
+  report: "Markdown report with all required sections"
+  evidence_package: "Tar.gz with evidence + reports"
+  quality_gate: "Checklist results with errors, warnings, and pass verdict"
+  bounty_estimate: "Estimated USD range with inputs and disclaimer"

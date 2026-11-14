@@ -1,0 +1,5 @@
+name: telegram_patrol
+title: Patrol public Telegram channels and report per project
+description: Watch public Telegram announcement channels for new posts, report each new post per project, and execute only verified free mints.
+category: Work and knowledge
+include_in_prompt: false

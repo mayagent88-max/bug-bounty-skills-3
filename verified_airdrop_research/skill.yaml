@@ -1,0 +1,24 @@
+name: verified_airdrop_research
+title: Verified Airdrop Research
+description: Research free airdrop opportunities with live eligibility, gate and deadline checks before recommending one.
+category: Finance
+include_in_prompt: true
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - message:assistant-msg-8490cd8d-d874-415e-b413-6cd4ff89c1fb
+  - message:assistant-msg-928be9c7-502e-d465-4b8d-dad0d9c8781a
+  - message:assistant-msg-22511222-a91a-37a7-8394-a3cc2b5d32b6
+  - message:assistant-msg-f3940156-55a5-cf81-95e9-7020fd58f3a1
+  - message:eb5ef169-44e6-4334-92cc-79da7b6f4ff2
+  - message:assistant-msg-af31cca5-abf1-4abe-8d6e-c774b2ce2659
+  measurement:
+    proxy_metric_id: objective_success_rate
+    success_criterion: In the 14 days after install, airdrop research turns show no user correction about a missed eligibility gate, a missed post-claim task, or a false claim about the user's participation, where the window before install had three such corrections.
+    window_days: 14
+  needs_review: false
+  rationale: 'The window''s core airdrop work shows one repeated mechanism: a first-pass recommendation that omits a gate or follow-on task, corrected later. Action Model was first presented as install the extension, then corrected to require an Ethos Score of 1300+ first (message:assistant-msg-8490cd8d-d874-415e-b413-6cd4ff89c1fb then message:assistant-msg-928be9c7-502e-d465-4b8d-dad0d9c8781a). Sovren was first presented as connect, follow and claim, then corrected to add five post-claim tasks before the freeze (message:assistant-msg-22511222-a91a-37a7-8394-a3cc2b5d32b6 then message:assistant-msg-f3940156-55a5-cf81-95e9-7020fd58f3a1). Canopy was first presented with the false claim the user never registered, corrected by the user saying he farmed it and got nothing (message:eb5ef169-44e6-4334-92cc-79da7b6f4ff2). A reusable checklist that forces the full gate list, the post-first-action tasks, the domain and cost check, and a memory check on participation before recommending directly targets that mechanism. The deterministic handoff-suppression candidates were rejected because they concern objective-loop trigger policy, which this loop cannot publish as a skill or connector doc, and the memory recurring-failure rollup carried no failure detail to ground a change.'
+  review_after: 2026-11-22T12:48:23.180767+00:00
+  reviewed_at: 2026-11-08T12:48:23.180767+00:00
+  run_id: sirun_55ed27caf4b14cbb8d6657b26ed91191

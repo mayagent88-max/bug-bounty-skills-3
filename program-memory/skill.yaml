@@ -1,0 +1,117 @@
+name: program-memory
+version: 2.0.0
+description: Governed program memory with corrections, confidence, decay, and strict program isolation. Persist target-specific knowledge across engagements and feed learning back into planner rankings.
+bounded_context: ProgramMemoryContext
+safety_tier: passive
+owasp_wstg:
+  - WSTG-INFO-01
+  - WSTG-INFO-03
+owasp_api_top10: []
+severity_range: [info]
+tools_required:
+  - python3
+  - jq
+input_files: []
+workflows:
+  init-memory:
+    description: Initialize the SQLite memory store for the current program.
+    safety_tier: passive
+    inputs: [PROGRAM]
+    command: |
+      python3 .claude/skills/program-memory/scripts/memory_store.py init --program $PROGRAM
+    outputs:
+      - .bb/memory.sqlite
+    evidence_dir: $OUTDIR/program-memory
+
+  record-fact:
+    description: Record a program fact into governed memory.
+    safety_tier: passive
+    inputs: [PROGRAM, FACT_CATEGORY, FACT_CONTENT]
+    command: |
+      python3 .claude/skills/program-memory/scripts/memory_store.py record \
+        --program $PROGRAM \
+        --category "${FACT_CATEGORY:?Set FACT_CATEGORY}" \
+        --content "${FACT_CONTENT:?Set FACT_CONTENT}" \
+        --confidence "${FACT_CONFIDENCE:-medium}" \
+        --sensitivity "${FACT_SENSITIVITY:-program-private}" \
+        ${FACT_SOURCE_ARTIFACT:+--source-artifact "$FACT_SOURCE_ARTIFACT"} \
+        ${FACT_EXPIRES_AT:+--expires-at "$FACT_EXPIRES_AT"} \
+        ${FACT_REVIEWED:+--reviewed}
+    outputs:
+      - .bb/memory.sqlite
+    evidence_dir: $OUTDIR/program-memory
+
+  search-facts:
+    description: Search program memory for facts.
+    safety_tier: passive
+    inputs: [PROGRAM]
+    command: |
+      python3 .claude/skills/program-memory/scripts/memory_store.py search \
+        --program $PROGRAM \
+        ${MEMORY_CATEGORY:+--category "$MEMORY_CATEGORY"} \
+        ${MEMORY_STATUS:+--status "$MEMORY_STATUS"} \
+        ${MEMORY_QUERY:+--query "$MEMORY_QUERY"}
+    evidence_dir: $OUTDIR/program-memory
+
+  record-correction:
+    description: Correct a previously recorded fact.
+    safety_tier: passive
+    inputs: [FACT_ID, CORRECTION_CONTENT, CORRECTION_REASON]
+    command: |
+      python3 .claude/skills/program-memory/scripts/memory_store.py correct \
+        --fact-id "${FACT_ID:?Set FACT_ID}" \
+        --new-content "${CORRECTION_CONTENT:?Set CORRECTION_CONTENT}" \
+        --reason "${CORRECTION_REASON:?Set CORRECTION_REASON}"
+    outputs:
+      - .bb/memory.sqlite
+    evidence_dir: $OUTDIR/program-memory
+
+  decay-facts:
+    description: Mark expired facts as stale for the program.
+    safety_tier: passive
+    inputs: [PROGRAM]
+    command: |
+      python3 .claude/skills/program-memory/scripts/memory_store.py decay --program $PROGRAM
+    outputs:
+      - .bb/memory.sqlite
+    evidence_dir: $OUTDIR/program-memory
+
+  summarize:
+    description: Produce a redacted program memory summary safe for planner context.
+    safety_tier: passive
+    inputs: [PROGRAM, OUTDIR]
+    command: |
+      mkdir -p $OUTDIR/program-memory && \
+      python3 .claude/skills/program-memory/scripts/memory_store.py summarize \
+        --program $PROGRAM \
+        --output $OUTDIR/program-memory/memory_summary.md
+    outputs:
+      - $OUTDIR/program-memory/memory_summary.md
+    evidence_dir: $OUTDIR/program-memory
+
+  check-contradictions:
+    description: Find contradictory facts for human review.
+    safety_tier: passive
+    inputs: [PROGRAM]
+    command: |
+      python3 .claude/skills/program-memory/scripts/memory_store.py contradictions --program $PROGRAM
+    evidence_dir: $OUTDIR/program-memory
+
+  export-safe:
+    description: Export report-safe facts.
+    safety_tier: passive
+    inputs: [PROGRAM, OUTDIR]
+    command: |
+      mkdir -p $OUTDIR/program-memory && \
+      python3 .claude/skills/program-memory/scripts/memory_store.py export \
+        --program $PROGRAM \
+        --output $OUTDIR/program-memory/safe_export.jsonl
+    outputs:
+      - $OUTDIR/program-memory/safe_export.jsonl
+    evidence_dir: $OUTDIR/program-memory
+
+evidence_templates:
+  program_fact: "Governed fact with fact_id, category, confidence, sensitivity, source_artifact, and review status"
+  false_positive_pattern: "False positive entry with explanation and affected endpoint"
+  correction: "Superseding fact linked to original via correction_of field"
+  contradiction_pair: "Two active facts in the same category with conflicting signals"

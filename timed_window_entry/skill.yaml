@@ -1,0 +1,24 @@
+name: timed_window_entry
+title: Time a timed window entry
+description: Time a timed entry, draw or claim window so a contested entry is ready before it opens and a noncontested entry is made only after it opens.
+category: Personal planning
+include_in_prompt: false
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - assistant-msg-64e41dff
+  - assistant-msg-ce9cd92b
+  - assistant-msg-0389e9d4
+  - assistant-msg-52360f06
+  - assistant-msg-556a2b89
+  - assistant-msg-20fcae49
+  measurement:
+    proxy_metric_id: objective_success_rate
+    success_criterion: In post-install timed entry tasks, every noncontested entry is delivered at or after its window opening with no entry rejected for an early timestamp, every contested entry is ready before its window opens, and no submit attempt starts before connection and account display are confirmed.
+    window_days: 30
+  needs_review: false
+  rationale: A draft given before a noncontested daily window opened led to an action before the window opened that the checker rejected as already drawn, and only a fresh action after the window opened entered the current period. The user then corrected the concept repeatedly, stating early standby belongs only to contested slots such as a contested mint or a new contested waitlist, while a noncontested entry must be given at its opening time. The same task also spun while searching for a submit control on an unconnected page, until the wallet connection and account display came first. This new skill is scoped to entry timing and connect before submit, which the existing timed mint connect skill does not cover, and that existing skill stays untouched inside its measurement window. The skill is written generically with no project, account or wallet detail, so it applies to future timed windows rather than repeating one conversation.
+  review_after: 2026-12-05T05:13:14.842977+00:00
+  reviewed_at: 2026-11-05T05:13:14.842977+00:00
+  run_id: sirun_a219b769b49b46cfacfaa2ff6ffb2741

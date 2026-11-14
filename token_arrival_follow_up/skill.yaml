@@ -1,0 +1,23 @@
+name: token_arrival_follow_up
+title: Token Arrival Follow Up
+description: Follow a claimed or launched token until it actually arrives in the wallet, then act on the prior sell instruction.
+category: Finance
+include_in_prompt: false
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - scheduler_job:credit-launch-sell-check
+  - cron run 817c255c-ade7-41b7-9176-d9016bc98960
+  - message:df76346b-9115-48ac-8bec-42bcb5754ac2
+  - message:assistant-msg-2ca6002b-5f5b-44da-af94-c7a86bde5685
+  - message:assistant-msg-b0b26ea7-9921-23c0-ea02-12a988d9f143
+  measurement:
+    proxy_metric_id: objective_success_rate
+    success_criterion: In post-install token claim or launch follow ups, no follow up closes on a single negative check, and every arrival is reported and, where a prior sell instruction exists, acted on within one polling interval, with no repeat of a runonce-only miss.
+    window_days: 30
+  needs_review: false
+  rationale: 'The $CREDIT follow up was scheduled as a single runonce check at 03:05 WIB on 1 Nov 2026 (scheduler_job:credit-launch-sell-check, run 817c255c-ade7-41b7-9176-d9016bc98960), which found no token and no published contract. The token actually arrived at 03:38 WIB, 33 minutes later, and the user then asked why it had not been sold (message:df76346b-9115-48ac-8bec-42bcb5754ac2); the assistant admitted the 03:05 check was single-use with no follow up scheduled. A reusable polling method, rather than a one-off cron fix, addresses the mechanism: a negative check must stay pending until arrival, deadline, or cancellation. This proposal does not duplicate the existing dex-aggregator skill, which already covers multi-router liquidity wording and was verified at ~/workspace/custom-skills/dex-aggregator/SKILL.md but is not loop-managed (no skill_improvement.managed flag), so it is left untouched. The deterministic handoff-suppression candidates were rejected because recurring, validation, and replay failures were all zero, so suppression there reads as healthy idle behaviour, not a failure to fix.'
+  review_after: 2026-12-01T05:12:47.148897+00:00
+  reviewed_at: 2026-11-01T05:12:47.148897+00:00
+  run_id: sirun_0a190bd9039f45dd8ef0e0c19dfb2c26
