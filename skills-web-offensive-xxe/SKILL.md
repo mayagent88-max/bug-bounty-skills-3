@@ -1,3 +1,7 @@
+---
+name: skills-web-offensive-xxe
+description: "SKILL: XML External Entity (XXE) Injection"
+---
 # SKILL: XML External Entity (XXE) Injection
 
 ## Metadata

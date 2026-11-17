@@ -1,3 +1,7 @@
+---
+name: skills-infrastructure-offensive-edr-evasion
+description: "SKILL: Endpoint Detection and Response"
+---
 # SKILL: Endpoint Detection and Response
 
 ## Metadata

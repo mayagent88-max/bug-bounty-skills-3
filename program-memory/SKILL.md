@@ -1,3 +1,7 @@
+---
+name: program-memory
+description: "Program Memory"
+---
 # Program Memory
 
 ## Overview

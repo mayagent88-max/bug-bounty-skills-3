@@ -1,3 +1,7 @@
+---
+name: safu_nft_market_watch
+description: "Watch token and NFT floors and sell at the threshold"
+---
 # Watch token and NFT floors and sell at the threshold
 
 ## Run the scheduled watch

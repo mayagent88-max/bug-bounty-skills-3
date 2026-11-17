@@ -1,3 +1,7 @@
+---
+name: timed_window_entry
+description: "Time a timed window entry"
+---
 # Time a timed window entry
 
 ## Classify the window before you act

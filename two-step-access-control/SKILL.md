@@ -1,6 +1,6 @@
 ---
 name: two-step-access-control
-description: Choose and wire the weakest sufficient access-control primitive: Ownable, Ownable2Step, or roles: and never leave a funds-affecting owner on single-step transfer. Use when adding any privileged function.
+description: "Choose and wire the weakest sufficient access-control primitive: Ownable, Ownable2Step, or roles: and never leave a funds-affecting owner on single-step transfer. Use when adding any privileged function."
 ---
 # Two-step Access Control
 

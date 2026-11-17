@@ -1,3 +1,7 @@
+---
+name: work_through_to_result
+description: "Work Through to a Result"
+---
 # Work Through to a Result
 
 ## Define the finish line before you start

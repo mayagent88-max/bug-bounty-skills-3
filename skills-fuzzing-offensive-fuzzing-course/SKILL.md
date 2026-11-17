@@ -1,3 +1,7 @@
+---
+name: skills-fuzzing-offensive-fuzzing-course
+description: "SKILL: Week 2: Finding Vulnerabilities Through Fuzzing"
+---
 # SKILL: Week 2: Finding Vulnerabilities Through Fuzzing
 
 ## Metadata

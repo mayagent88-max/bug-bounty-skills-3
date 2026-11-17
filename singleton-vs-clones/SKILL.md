@@ -1,6 +1,6 @@
 ---
 name: singleton-vs-clones
-description: Choose deployment architecture when you need many instances of the same logic: full deploy per instance, EIP-1167 minimal-proxy clones, or a single singleton keyed by a params hash. Use when a factory does `new Contract(...)` in a loop or per user action.
+description: "Choose deployment architecture when you need many instances of the same logic: full deploy per instance, EIP-1167 minimal-proxy clones, or a single singleton keyed by a params hash. Use when a factory does `new Contract(...)` in a loop or per user action."
 ---
 # Singleton vs. Clones vs. Per-instance deploy
 

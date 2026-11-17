@@ -1,6 +1,6 @@
 ---
 name: oracle-safety
-description: Consume external data (prices, off-chain metrics, aggregates) without trusting a single manipulable reading: staleness checks, bounds, TWAP over spot, and report/use separation with a dispute window. Use whenever on-chain logic depends on a value from outside the contract.
+description: "Consume external data (prices, off-chain metrics, aggregates) without trusting a single manipulable reading: staleness checks, bounds, TWAP over spot, and report/use separation with a dispute window. Use whenever on-chain logic depends on a value from outside the contract."
 ---
 # Oracle safety
 

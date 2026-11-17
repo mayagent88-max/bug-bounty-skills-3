@@ -1,3 +1,7 @@
+---
+name: privesc
+description: "Privesc"
+---
 # Privesc
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+name: osint-enrich
+description: "OSINT Enrich"
+---
 # OSINT Enrich
 
 OSINT enrichment and target dossier generation using publicly available information.

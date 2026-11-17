@@ -1,3 +1,7 @@
+---
+name: skills-web-offensive-ssrf
+description: "SKILL: Server-Side Request Forgery (SSRF)"
+---
 # SKILL: Server-Side Request Forgery (SSRF)
 
 ## Metadata

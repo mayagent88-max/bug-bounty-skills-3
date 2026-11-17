@@ -1,3 +1,7 @@
+---
+name: standard-catalog
+description: "Standard Catalog"
+---
 # Standard Catalog
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+name: skills-web-offensive-xss
+description: "SKILL: Cross-Site Scripting (XSS)"
+---
 # SKILL: Cross-Site Scripting (XSS)
 
 ## Metadata

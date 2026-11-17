@@ -1,3 +1,7 @@
+---
+name: token_arrival_follow_up
+description: "Follow a token until it arrives"
+---
 # Follow a token until it arrives
 
 ## Replace one check with polling

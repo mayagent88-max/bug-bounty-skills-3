@@ -1,3 +1,7 @@
+---
+name: skills-web-offensive-request-smuggling
+description: "SKILL: HTTP Request Smuggling"
+---
 # SKILL: HTTP Request Smuggling
 
 ## Metadata

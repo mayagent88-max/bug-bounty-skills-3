@@ -1,3 +1,7 @@
+---
+name: technique-kb
+description: "Technique Knowledge Base"
+---
 # Technique Knowledge Base
 
 ## Overview

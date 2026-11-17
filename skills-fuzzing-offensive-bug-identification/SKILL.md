@@ -1,3 +1,7 @@
+---
+name: skills-fuzzing-offensive-bug-identification
+description: "SKILL: Bug Identification"
+---
 # SKILL: Bug Identification
 
 ## Metadata

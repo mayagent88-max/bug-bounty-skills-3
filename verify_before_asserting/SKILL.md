@@ -1,3 +1,7 @@
+---
+name: verify_before_asserting
+description: "Verify a specific claim before stating it"
+---
 # Verify a specific claim before stating it
 
 ## Check the official source first

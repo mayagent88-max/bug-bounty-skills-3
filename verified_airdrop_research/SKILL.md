@@ -1,3 +1,7 @@
+---
+name: verified_airdrop_research
+description: "Verified Airdrop Research"
+---
 # Verified Airdrop Research
 
 ## Check the full gate before you recommend

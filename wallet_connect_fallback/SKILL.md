@@ -1,3 +1,7 @@
+---
+name: wallet_connect_fallback
+description: "Switch Wallet When a Browser Wallet Connect Stays Silent"
+---
 # Switch Wallet When a Browser Wallet Connect Stays Silent
 
 ## Check chain support before you send funds

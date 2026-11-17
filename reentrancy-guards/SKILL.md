@@ -1,6 +1,6 @@
 ---
 name: reentrancy-guards
-description: Prevent reentrancy on any function that makes an external call: token transfers, ETH sends, calls into unknown contracts. Use checks-effects-interactions first, a guard second.
+description: "Prevent reentrancy on any function that makes an external call: token transfers, ETH sends, calls into unknown contracts. Use checks-effects-interactions first, a guard second."
 ---
 # Reentrancy guards
 

@@ -1,3 +1,7 @@
+---
+name: x_account_growth
+description: "Grow an X account safely within daily caps"
+---
 # Grow an X account safely within daily caps
 
 ## Audit the baseline first

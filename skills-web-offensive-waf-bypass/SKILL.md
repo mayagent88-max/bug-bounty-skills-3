@@ -1,3 +1,7 @@
+---
+name: skills-web-offensive-waf-bypass
+description: "SKILL: WAF Bypass Techniques"
+---
 # SKILL: WAF Bypass Techniques
 
 ## Metadata

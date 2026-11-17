@@ -1,6 +1,6 @@
 ---
 name: vyper-vanguard
-description: Review Vyper contracts for high-signal language-semantics and protocol-accounting bugs: raw_call/raw_return forwarding, factory and blueprint traps, nonreentrancy observation windows, module/interface drift, byte/convert edge cases, unsafe arithmetic, iterative invariant drift, dust/share bugs, zero-amount state mutation, and multicall sequencing. Use when reviewing Vyper source, Vyper interfaces, JSON ABIs imported into Vyper, or Vyper deployment/build artifacts.
+description: "Review Vyper contracts for high-signal language-semantics and protocol-accounting bugs: raw_call/raw_return forwarding, factory and blueprint traps, nonreentrancy observation windows, module/interface drift, byte/convert edge cases, unsafe arithmetic, iterative invariant drift, dust/share bugs, zero-amount state mutation, and multicall sequencing. Use when reviewing Vyper source, Vyper interfaces, JSON ABIs imported into Vyper, or Vyper deployment/build artifacts."
 ---
 
 Analyze Vyper contracts for bugs that come from Vyper-specific semantics or from protocol accounting patterns that Vyper code often uses.

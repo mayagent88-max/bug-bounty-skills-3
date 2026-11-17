@@ -1,3 +1,7 @@
+---
+name: skills-ai-offensive-ai-security
+description: "SKILL: AI Pentest"
+---
 # SKILL: AI Pentest
 
 ## Metadata

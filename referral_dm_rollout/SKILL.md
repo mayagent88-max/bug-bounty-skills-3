@@ -1,3 +1,7 @@
+---
+name: referral_dm_rollout
+description: "Send a referral task to the sister assistants by DM"
+---
 # Send a referral task to the sister assistants by DM
 
 ## Decide when to use this method

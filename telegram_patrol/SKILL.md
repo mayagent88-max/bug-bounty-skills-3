@@ -1,3 +1,7 @@
+---
+name: telegram_patrol
+description: "Patrol public Telegram channels and report per project"
+---
 # Patrol public Telegram channels and report per project
 
 ## Watch public channels only

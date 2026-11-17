@@ -1,3 +1,7 @@
+---
+name: skills-fuzzing-offensive-vuln-classes
+description: "SKILL: Week 1: Vulnerability Classes with Real-World Examples"
+---
 # SKILL: Week 1: Vulnerability Classes with Real-World Examples
 
 ## Metadata

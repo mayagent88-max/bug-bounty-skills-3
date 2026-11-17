@@ -1,3 +1,7 @@
+---
+name: scope-manager
+description: "Scope Manager"
+---
 # Scope Manager
 
 ## Overview

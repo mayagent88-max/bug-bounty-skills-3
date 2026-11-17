@@ -1,3 +1,7 @@
+---
+name: skills-auth-offensive-oauth
+description: "SKILL: OAuth Security Testing"
+---
 # SKILL: OAuth Security Testing
 
 ## Metadata

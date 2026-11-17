@@ -1,3 +1,7 @@
+---
+name: vuln-intel
+description: "Vulnerability Intelligence"
+---
 # Vulnerability Intelligence
 
 ## Overview

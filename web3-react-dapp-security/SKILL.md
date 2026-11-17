@@ -1,6 +1,6 @@
 ---
 name: web3-react-dapp-security
-description: Adds client-side safety controls to EVM React dapps: pre-signing transaction validation, wallet/risk scanning, approval and recipient warnings, token-risk handling, phishing-resistant confirmation UX, blocked-address policy, and privacy-safe telemetry. Use when users may sign, approve, transfer, swap, bridge, or submit externally generated calldata.
+description: "Adds client-side safety controls to EVM React dapps: pre-signing transaction validation, wallet/risk scanning, approval and recipient warnings, token-risk handling, phishing-resistant confirmation UX, blocked-address policy, and privacy-safe telemetry. Use when users may sign, approve, transfer, swap, bridge, or submit externally generated calldata."
 ---
 
 # Web3 React Dapp Security
